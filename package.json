@@ -30,8 +30,8 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "ahoy",
-  "author": "boertel",
+  "name": "@boertel/ahoy",
+  "author": "Benjamin Oertel <benjamin.oertel@gmail.com>",
   "module": "dist/ahoy.esm.js",
   "size-limit": [
     {

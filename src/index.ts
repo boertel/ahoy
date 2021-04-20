@@ -19,76 +19,82 @@ interface Button {
 interface Arguments {
   title: string;
   content: string;
-  cta?: Button
+  cta?: Button;
+  attachments?: string | string[];
 }
+
 
 async function send(argv: Arguments) {
-  const { title, content, } = argv
+  const { title, content, attachments } = argv
   const webhook = new IncomingWebhook(url)
-  const blocks = {
-	"blocks": [
-		{
-			"type": "header",
-			"text": {
-				"type": "plain_text",
-				"text": title,
-				"emoji": true
-			}
-		},
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": content,
-			},
-/*
-			"accessory": cta ? {
-				"type": "button",
-				"text": {
-					"type": "plain_text",
-					"text": cta.text,
-					"emoji": true
-				},
-				"value": "cta",
-				"url": cta.url,
-				"action_id": "button-action"
-} : null
-*/
-		}
-	],
-/*
-	"attachments": [
-		{
-      "blocks": attachments.map((attachment) => (
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": attachment.text,
-          },
-          "accessory": {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": attachment.cta.text,
-              "emoji": true
-            },
-            "url": attachment.cta.url,
-            "value": "view_alternate_1"
-          }
+  let blocks = [
+      {
+        "type": "header",
+        "text": {
+          "type": "plain_text",
+          "text": title,
+          "emoji": true
         }
-      ))
-		}
-	]
-*/
-}
-  const response = await webhook.send(blocks)
-  console.log(response)
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": content,
+        },
+        "accessory": cta ? {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": cta.text,
+            "emoji": true
+          },
+          "value": "cta",
+          "url": cta.url,
+          "action_id": "button-action"
+          } : null
+      }
+    ]
+
+  if (attachments) {
+    // @ts-ignore
+    blocks = blocks.concat((Array.isArray(attachments) ? attachments : [attachments]).map((attachment) => {
+      return {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": attachment,
+        },
+      };
+    }))
+  }
+  const response = await webhook.send({ blocks, })
+  if (response.text === 'ok') {
+    process.exit(0)
+  } else {
+    process.exit(1)
+  }
 }
 
-const argv: Arguments = yargs(process.argv.slice(2)).options({
+interface CliArguments {
+  title: string;
+  content: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  attachment?: string | string[];
+}
+
+const argv: CliArguments = yargs(process.argv.slice(2)).options({
   title: { type: 'string', demandOption: true },
   content: { type: 'string', demandOption: true },
+  ctaText: { type: 'string' },
+  ctaUrl: { type: 'string' },
+  attachment: { type: 'string' },
 }).argv
 
-send({ title: argv.title, content: argv.content })
+const cta = argv.ctaText && argv.ctaUrl ? { text: argv.ctaText, url: argv.ctaUrl } : undefined
+
+
+const attachments: string | string[] | undefined = argv.attachment
+
+send({ title: argv.title, content: argv.content, cta, attachments })
