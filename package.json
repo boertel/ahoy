@@ -17,7 +17,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "postbuild": "echo -e '#!/usr/bin/env node\n' "$(cat dist/index.js)" > dist/index.js",
+    "postbuild": "echo -e '#!/usr/bin/env node\n' \"$(cat dist/index.js)\" > dist/index.js",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
