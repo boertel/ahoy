@@ -1,8 +1,11 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "bin": {
+    "ahoy": "dist/index.js"
+  },
   "files": [
     "dist",
     "src"
@@ -13,6 +16,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "postbuild": "echo -e '#!/usr/bin/env node\n' "$(cat dist/index.js)" > dist/index.js",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
