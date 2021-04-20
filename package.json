@@ -3,6 +3,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "access": "public",
   "bin": {
     "ahoy": "dist/index.js"
   },
