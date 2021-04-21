@@ -1,7 +1,8 @@
 {
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
   "access": "public",
   "type": "module",
@@ -38,12 +39,7 @@
   },
   "name": "@boertel/ahoy",
   "author": "Benjamin Oertel <benjamin.oertel@gmail.com>",
-  "module": "dist/ahoy.esm.js",
   "size-limit": [
-    {
-      "path": "dist/ahoy.cjs.production.min.js",
-      "limit": "10 KB"
-    },
     {
       "path": "dist/ahoy.esm.js",
       "limit": "10 KB"
