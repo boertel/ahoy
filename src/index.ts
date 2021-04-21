@@ -1,5 +1,5 @@
 import { IncomingWebhook } from "@slack/webhook"
-import yargs from "yargs/yargs"
+import * as yargs from "yargs/yargs"
 
 declare global {
   namespace NodeJS {
