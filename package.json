@@ -1,9 +1,10 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "access": "public",
+  "type": "module",
   "bin": {
     "ahoy": "bin/ahoy.js"
   },
