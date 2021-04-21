@@ -1,13 +1,14 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "access": "public",
   "bin": {
-    "ahoy": "dist/index.js"
+    "ahoy": "bin/ahoy.js"
   },
   "files": [
+    "bin",
     "dist",
     "src"
   ],
@@ -15,15 +16,13 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "postbuild": "./postbuild.sh",
+    "start": "tsdx watch --format esm --target node",
+    "build": "tsdx build --format esm --target node",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why",
-    "release": "rm -rf dist && npm run build && npm publish"
+    "analyze": "size-limit --why"
   },
   "husky": {
     "hooks": {
