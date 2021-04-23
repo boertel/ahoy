@@ -21,11 +21,12 @@ interface Arguments {
   content: string;
   cta?: Button;
   attachments?: string | string[];
+  icon?: string;
 }
 
 
 async function send(argv: Arguments) {
-  const { title, content, attachments } = argv
+  const { title, content, attachments, icon, } = argv
   const webhook = new IncomingWebhook(url)
   let blocks = [
       {
@@ -68,7 +69,7 @@ async function send(argv: Arguments) {
       };
     }))
   }
-  const response = await webhook.send({ blocks, })
+  const response = await webhook.send({ icon_url: icon, blocks, })
   if (response.text === 'ok') {
     process.exit(0)
   } else {
@@ -82,6 +83,7 @@ interface CliArguments {
   ctaText?: string;
   ctaUrl?: string;
   attachment?: string | string[];
+  icon?: string;
 }
 
 const argv: CliArguments = yargs(process.argv.slice(2)).options({
@@ -90,6 +92,7 @@ const argv: CliArguments = yargs(process.argv.slice(2)).options({
   ctaText: { type: 'string' },
   ctaUrl: { type: 'string' },
   attachment: { type: 'string' },
+  icon: { type: 'string'},
 }).argv
 
 const cta = argv.ctaText && argv.ctaUrl ? { text: argv.ctaText, url: argv.ctaUrl } : undefined
@@ -97,4 +100,4 @@ const cta = argv.ctaText && argv.ctaUrl ? { text: argv.ctaText, url: argv.ctaUrl
 
 const attachments: string | string[] | undefined = argv.attachment
 
-send({ title: argv.title, content: argv.content, cta, attachments })
+send({ title: argv.title, content: argv.content, cta, attachments, icon: argv.icon })
